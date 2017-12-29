@@ -163,8 +163,7 @@ def get_token(request):
         if _client_id != config.get('API', 'client_id'):
             logger.info('invalid_client_id')
             return JsonResponse(
-                error_resp('invalid_client', 'ClientId is Invalid'),
-                status=400, safe=False
+                error_resp('invalid_client', 'ClientId is Invalid'), status=400
             )
 
         try:
@@ -176,8 +175,7 @@ def get_token(request):
         except Exception as error:
             logger.exception(error)
             return JsonResponse(
-                error_resp('invalid_code', 'Code is Invalid'),
-                status=400, safe=False
+                error_resp('invalid_code', 'Code is Invalid'), status=400
             )
 
         token_resp = {
@@ -189,8 +187,7 @@ def get_token(request):
     except Exception as error:
         logger.exception(error)
         return JsonResponse(
-            error_resp('unknown_error', 'Unknown Error'),
-            status=400, safe=False
+            error_resp('unknown_error', 'Unknown Error'), status=400
         )
 
 
