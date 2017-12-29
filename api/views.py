@@ -22,9 +22,9 @@ def home(request):
 
 @csrf_exempt
 @require_http_methods(['POST'])
-def testing(request):
+def accounts(request):
     """
-    # View  /api/testing
+    # View  /api/accounts/
     """
     log_req(request)
     try:
