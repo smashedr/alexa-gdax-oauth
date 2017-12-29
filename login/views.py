@@ -1,27 +1,61 @@
+from django.conf import settings
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from login.models import TokenDatabase
 import gdax
 import logging
 
 logger = logging.getLogger('app')
+config = settings.CONFIG
 
 
-def home(request):
-    """
-    # View  /
-    """
-    return render(request, 'login.html')
-
-
-def success(request):
+def has_success(request):
     """
     # View  /success
     # This is for debugging only
     # You will be redirected back to Alexa
     """
     return render(request, 'success.html')
+
+
+def has_error(request):
+    """
+    # View  /error
+    # This is for debugging only
+    # Error handling does not yet exist
+    """
+    return render(request, 'error.html')
+
+
+@require_http_methods(['GET'])
+def do_connect(request):
+    """
+    # View  /connect
+    """
+    try:
+        request.session['client_id'] = request.GET.get('client_id')
+        request.session['redirect_uri'] = request.GET.get('redirect_uri')
+        request.session['response_type'] = request.GET.get('response_type')
+        if request.session['client_id'] != config.get('API', 'client_id'):
+            raise ValueError('Inivalid client_id')
+        if request.session['redirect_uri'] not in \
+                config.get('API', 'redirect_uris').split(' '):
+            logger.info(request.session['redirect_uri'])
+            logger.info(config.get('API', 'redirect_uris').split(' '))
+            raise ValueError('Inivalid redirect_uri')
+        if request.session['response_type'] != 'code':
+            raise ValueError('Inivalid response_type')
+        return render(request, 'login.html')
+    except Exception as error:
+        logger.exception(error)
+        messages.add_message(
+            request, messages.WARNING,
+            'Invalid Request.',
+            extra_tags='danger',
+        )
+        return redirect('error')
 
 
 @require_http_methods(['POST'])
@@ -76,3 +110,9 @@ def do_login(request):
             extra_tags='danger',
         )
         return redirect('home')
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def get_token(request):
+    return HttpResponse('OK')

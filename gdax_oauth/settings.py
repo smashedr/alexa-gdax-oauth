@@ -6,6 +6,7 @@ CONFIG_FILE = os.path.join(BASE_DIR, 'settings.ini')
 
 config = ConfigParser()
 config.read(CONFIG_FILE)
+CONFIG = config
 
 STATIC_URL = '/static/'
 TEMPLATES_DIRS = [os.path.join(BASE_DIR, 'templates')]

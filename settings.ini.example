@@ -1,10 +1,18 @@
 [App]
-debug = True
-secret = z2mnPegpkV7dT3wwSwzJOthQU
-allowed_hosts = *
-static_root = C:\tmp
+debug          = True
+secret         = xxxxxxxxxxxxxxxxxxxx
+allowed_hosts  = *
+static_root    = C:\tmp
 
 [Logging]
-app_level = DEBUG
-django_level = WARNING
-file = django.log
+app_handler    = file
+app_level      = DEBUG
+django_handler = console
+django_level   = INFO
+log_file       = django.log
+
+[API]
+access_token   = xxxxxxxxxxxxxxxxxxxx
+client_id      = Dr9mM6Wlt4TTKXK3e2cNv2W10
+client_secret  = xxxxxxxxxxxxxxxxxxxx
+redirect_uris  = null
