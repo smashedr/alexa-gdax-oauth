@@ -90,7 +90,6 @@ def do_login(request):
         _key = request.POST.get('key')
         _password = request.POST.get('password')
         _secret = request.POST.get('secret')
-        logger.info('post variables parsed')
 
         auth_client = gdax.AuthenticatedClient(_key, _secret, _password)
         gdax_accounts = auth_client.get_accounts()
@@ -107,7 +106,6 @@ def do_login(request):
         try:
             td = TokenDatabase.objects.get(key=_key)
             td.delete()
-            logger.info('td.delete executed')
         except:
             pass
 
@@ -124,7 +122,6 @@ def do_login(request):
             secret=_secret,
         )
         td.save()
-        logger.info('td.save executed')
 
         messages.add_message(
             request, messages.SUCCESS,
@@ -156,10 +153,6 @@ def get_token(request):
         _client_id = request.POST.get('client_id')
         _client_secret = request.POST.get('client_secret')
 
-        logger.info('code: %s' % _code)
-        logger.info('client_id: %s' % _client_id)
-        logger.info('client_secret: %s' % _client_secret)
-
         if _client_id != config.get('API', 'client_id'):
             logger.info('invalid_client_id')
             return JsonResponse(
@@ -182,7 +175,6 @@ def get_token(request):
             'access_token': key,
             'token_type': 'bearer',
         }
-        logger.info(token_resp)
         return JsonResponse(token_resp)
     except Exception as error:
         logger.exception(error)

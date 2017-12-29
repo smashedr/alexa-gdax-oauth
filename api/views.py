@@ -30,7 +30,6 @@ def accounts(request):
     try:
         _key = request.POST.get('key')
         _api_token = request.POST.get('api_token')
-        logger.info('post variables parsed')
 
         if _api_token != config.get('API', 'api_token'):
             return JsonResponse(
@@ -50,8 +49,6 @@ def accounts(request):
 
         auth_client = gdax.AuthenticatedClient(_key, secret, password)
         gdax_accounts = auth_client.get_accounts()
-        logger.info(type(gdax_accounts))
-        logger.info(gdax_accounts)
         acct_json = json.dumps(gdax_accounts)
         logger.info(acct_json)
 
