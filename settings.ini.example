@@ -11,6 +11,13 @@ django_handler = console
 django_level   = INFO
 log_file       = django.log
 
+[Database]
+name           = database
+user           = database
+pass           = xxxxxxxxxxxxxxxxxxxx
+host           = mysql
+port           = 3306
+
 [API]
 api_token      = xxxxxxxxxxxxxxxxxxxx
 client_id      = xxxxxxxxxxxxxxxxxxxx

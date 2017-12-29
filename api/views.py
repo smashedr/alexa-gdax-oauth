@@ -12,6 +12,7 @@ import logging
 logger = logging.getLogger('app')
 config = settings.CONFIG
 
+
 def home(request):
     """
     # View  /api/
@@ -28,8 +29,6 @@ def testing(request):
     log_req(request)
     try:
         _key = request.POST.get('key')
-        _password = request.POST.get('password')
-        _secret = request.POST.get('secret')
         _api_token = request.POST.get('api_token')
         logger.info('post variables parsed')
 
@@ -39,13 +38,17 @@ def testing(request):
                 status=401,
             )
 
-        if not _key or not _password or not _secret:
+        td = TokenDatabase.objects.get(key=_key)
+        secret = td.secret
+        password = td.password
+
+        if not _key or not secret or not password:
             return JsonResponse(
                 error_resp('missing_credentials', 'API Credentials Missing'),
                 status=401,
             )
 
-        auth_client = gdax.AuthenticatedClient(_key, _secret, _password)
+        auth_client = gdax.AuthenticatedClient(_key, secret, password)
         gdax_accounts = auth_client.get_accounts()
         logger.info(type(gdax_accounts))
         logger.info(gdax_accounts)
