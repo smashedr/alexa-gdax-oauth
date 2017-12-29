@@ -118,7 +118,7 @@ def do_login(request):
             'code': code, 'state': request.session['state']
         }
         url = request.session['redirect_uri']
-        return redirect(url + urllib.parse.urlencode(get_vars))
+        return redirect(url + '?' + urllib.parse.urlencode(get_vars))
 
     except Exception as error:
         logger.exception(error)
