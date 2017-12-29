@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'token/', home.get_token, name='token'),
     url(r'success/', home.has_success, name='success'),
     url(r'error/', home.has_error, name='error'),
+    url(r'privacy/', home.privacy_policy, name='privacy'),
     url(r'^api/', include('api.urls')),
     url(r'^admin/', admin.site.urls, name="django_admin"),
 ]

@@ -34,6 +34,15 @@ def has_error(request):
     return render(request, 'error.html')
 
 
+def privacy_policy(request):
+    """
+    # View  /error
+    # This is for debugging only
+    # Error handling does not yet exist
+    """
+    return render(request, 'privacy.html')
+
+
 @require_http_methods(['GET'])
 def do_connect(request):
     """
@@ -47,7 +56,7 @@ def do_connect(request):
         if request.session['client_id'] != config.get('API', 'client_id'):
             raise ValueError('Inivalid client_id')
         if request.session['redirect_uri'] not in \
-                config.get('API', 'redirect_uris').split(' '):
+                config.get('API', 'redirect_uris', raw=True).split(' '):
             raise ValueError('Inivalid redirect_uri')
         if request.session['response_type'] != 'code':
             raise ValueError('Inivalid response_type')
