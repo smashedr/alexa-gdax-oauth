@@ -51,12 +51,12 @@ def testing(request):
         logger.info(gdax_accounts)
         acct_dict = json.dumps(gdax_accounts)
 
-        return JsonResponse(acct_dict)
+        return JsonResponse(acct_dict, safe=False)
 
     except Exception as error:
         logger.exception(error)
         return JsonResponse(
-            error_resp('unknown_error', 'Unknown Error'), status=400, safe=False
+            error_resp('unknown_error', 'Unknown Error'), status=400
         )
 
 
