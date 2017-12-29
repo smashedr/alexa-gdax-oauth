@@ -1,4 +1,8 @@
 
+body {
+    background-color: rgb(44,118,153);
+}
+
 #login-outer {
     background: rgba(255,255,255,0.8);
     width: 340px;

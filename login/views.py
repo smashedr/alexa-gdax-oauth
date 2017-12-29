@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_http_methods
 from login.models import TokenDatabase
 import gdax
 import logging
@@ -14,6 +15,16 @@ def home(request):
     return render(request, 'login.html')
 
 
+def success(request):
+    """
+    # View  /success
+    # This is for debugging only
+    # You will be redirected back to Alexa
+    """
+    return render(request, 'success.html')
+
+
+@require_http_methods(['POST'])
 def do_login(request):
     """
     # View  /authenticate
@@ -55,7 +66,7 @@ def do_login(request):
             'Successfully Authenticated GDAX.',
             extra_tags='success',
         )
-        return redirect('home')
+        return redirect('success')
 
     except Exception as error:
         logger.exception(error)

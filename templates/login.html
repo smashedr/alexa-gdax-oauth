@@ -2,19 +2,6 @@
 {% load staticfiles %}
 
 {% block head %}
-    <style type="text/css">
-        body {
-            background-image: url("{% static 'images/login-bg.jpg' %}");
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-position: center top;
-            background-color: rgb(44,118,153);
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-        }
-    </style>
     <link rel="stylesheet" href="{% static "css/login.css" %}">
 {% endblock %}
 
@@ -59,18 +46,7 @@
 
     <div class="row">
         <div id="login-outer">
-            <div class="row">
-                <div class="col-sm-4">
-                    <img id="login-logo" class="img-responsive center-block" src="{% static 'images/al64.png' %}" alt="alexa-gdax">
-                </div>
-                <div class="col-sm-4">
-                    <img id="login-logo" class="img-responsive center-block" src="{% static 'images/arrow64.png' %}" alt="alexa-gdax">
-                </div>
-                <div class="col-sm-4">
-                    <img id="login-logo" class="img-responsive center-block" src="{% static 'images/gdax64.jpg' %}" alt="alexa-gdax">
-                </div>
-            </div>
-            <h2 class="text-center">alexa-gdax</h2>
+            {% include 'header.html' %}
 
             <p>
                 To connect Alexa to GDAX you must generate an API Key, Secret and Password at
