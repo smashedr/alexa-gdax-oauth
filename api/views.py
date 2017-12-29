@@ -56,7 +56,7 @@ def testing(request):
     except Exception as error:
         logger.exception(error)
         return JsonResponse(
-            error_resp('unknown_error', 'Unknown Error'), status=400
+            error_resp('unknown_error', 'Unknown Error'), status=400, safe=False
         )
 
 
