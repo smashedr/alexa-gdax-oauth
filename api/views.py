@@ -49,9 +49,10 @@ def testing(request):
         gdax_accounts = auth_client.get_accounts()
         logger.info(type(gdax_accounts))
         logger.info(gdax_accounts)
-        acct_dict = json.dumps(gdax_accounts)
+        acct_json = json.dumps(gdax_accounts)
+        logger.info(acct_json)
 
-        return JsonResponse(acct_dict, safe=False)
+        return JsonResponse(gdax_accounts, safe=False)
 
     except Exception as error:
         logger.exception(error)
