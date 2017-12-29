@@ -102,7 +102,7 @@ def do_login(request):
                 'Error: {}'.format(gdax_accounts['message']),
                 extra_tags='danger',
             )
-            return redirect('home')
+            return redirect('connect')
 
         try:
             td = TokenDatabase.objects.get(key=_key)
@@ -144,7 +144,7 @@ def do_login(request):
             'Error: {}'.format(error),
             extra_tags='danger',
         )
-        return redirect('home')
+        return redirect('connect')
 
 
 @csrf_exempt
