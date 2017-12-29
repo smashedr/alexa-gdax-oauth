@@ -48,11 +48,17 @@ def do_connect(request):
     """
     # View  /connect
     """
+    log_req(request)
     try:
-        request.session['client_id'] = request.GET.get('client_id')
-        request.session['redirect_uri'] = request.GET.get('redirect_uri')
-        request.session['response_type'] = request.GET.get('response_type')
-        request.session['state'] = request.GET.get('state')
+        if 'client_id' in request.GET:
+            request.session['client_id'] = request.GET.get('client_id')
+        if 'redirect_uri' in request.GET:
+            request.session['redirect_uri'] = request.GET.get('redirect_uri')
+        if 'response_type' in request.GET:
+            request.session['response_type'] = request.GET.get('response_type')
+        if 'state' in request.GET:
+            request.session['state'] = request.GET.get('state')
+
         if request.session['client_id'] != config.get('API', 'client_id'):
             raise ValueError('Inivalid client_id')
         if request.session['redirect_uri'] not in \
@@ -62,6 +68,7 @@ def do_connect(request):
             raise ValueError('Inivalid response_type')
         if not request.session['state']:
             raise ValueError('Inivalid state')
+
         return render(request, 'login.html')
     except Exception as error:
         logger.exception(error)
@@ -78,6 +85,7 @@ def do_login(request):
     """
     # View  /authenticate
     """
+    log_req(request)
     try:
         _key = request.POST.get('key')
         _password = request.POST.get('password')
@@ -142,6 +150,7 @@ def do_login(request):
 @csrf_exempt
 @require_http_methods(['POST'])
 def get_token(request):
+    log_req(request)
     try:
         _code = request.POST.get('code')
         _client_id = request.POST.get('client_id')
@@ -157,8 +166,6 @@ def get_token(request):
                 error_resp('invalid_client', 'ClientId is Invalid'),
                 status=400, safe=False
             )
-
-
 
         try:
             if _code:
@@ -185,3 +192,22 @@ def get_token(request):
             error_resp('unknown_error', 'Unknown Error'),
             status=400, safe=False
         )
+
+
+def log_req(request):
+    """
+    DEBUGGING ONLY
+    """
+    data = ''
+    if request.method == 'GET':
+        logger.debug('GET')
+        for key, value in request.GET.items():
+            data += '"%s": "%s", ' % (key, value)
+    if request.method == 'POST':
+        logger.debug('POST')
+        for key, value in request.POST.items():
+            data += '"%s": "%s", ' % (key, value)
+    data = data.strip(', ')
+    logger.debug(data)
+    json_string = '{%s}' % data
+    return json_string
