@@ -152,16 +152,13 @@ def get_token(request):
         logger.info('client_secret: %s' % _client_secret)
 
         if _client_id != config.get('API', 'client_id'):
+            logger.info('invalid_client_id')
             return JsonResponse(
                 error_resp('invalid_client', 'ClientId is Invalid'),
                 status=400, safe=False
             )
 
-        if _client_secret != config.get('API', 'client_secret'):
-            return JsonResponse(
-                error_resp('invalid_secret', 'Secret is Invalid'),
-                status=400, safe=False
-            )
+
 
         try:
             if _code:
