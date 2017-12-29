@@ -1,0 +1,10 @@
+[App]
+debug = True
+secret = z2mnPegpkV7dT3wwSwzJOthQU
+allowed_hosts = *
+static_root = C:\tmp
+
+[Logging]
+app_level = DEBUG
+django_level = WARNING
+file = django.log
